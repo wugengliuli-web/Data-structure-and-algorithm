@@ -8,37 +8,8 @@
 
 使用 myTool.removeRepeat(array, true)
 
-```
-let arr = [
-    {name: 'xiaoming'},
-    {name: 'xiaoming'},
-    {name: 'xiaoming'},
-    [1,2,3],
-    [1,2,3],
-    [1],
-    [5,5],
-    [5,5],
-    1,
-    1,
-    5
-]
-
-let newArr = myTool.removeRepeat(arr, true)
-
-console.log(newArr)
-
-[
-    {name: "xiaoming"},
-    [1, 2, 3],
-    [1],
-    [5, 5],
-    1,
-    5
-]
-```
-
 **对象的取值**
-用于对象的取值
+* 用于对象的取值
 * @param {需要索引的对象 Object} obj
 * @param {取值的内容 String} index
 * @param {如果是undefined,或者没找到,则返回的值,默认undefined any} defaultValue
@@ -46,23 +17,10 @@ console.log(newArr)
 
 使用myTool.objectIndex(obj, 'a.q.b.p.a', 9)
 
-```
-let obj = {
-    a: {
-        b: {
-            c: {
-                d: 5,
-                e: {
-                    f: void 0,
-                    t: null,
-                    g: ''
-                },
-                p: {
+**深拷贝**
 
-                }
-            }
-        }
-    }
-}
-console.log(myTool.objectIndex(obj, 'a.b.c.d', 9))
-```
+* 变量深拷贝的方法
+* @param {需要克隆的变量 any} oldSource
+* @returns {拷贝后的变量 any} 
+
+使用 let newObj = myTool.clone(obj)

@@ -1,0 +1,12 @@
+{
+  "name": "myTools",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/wugengliuli-web/myTool.git",
+  "author": "Your Name <you@example.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "parcel index.html",
+    "build": "parcel build index.html"
+  }
+}
