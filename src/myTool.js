@@ -123,6 +123,24 @@ class myTool {
             }
         }
     }
+
+    /**
+     * 数组的扁平化
+     * @param {需要扁平化的数组 Array} array 
+     * @returns {扁平化之后的数组 Array}
+     */
+    static flat(array) {
+        let type = getDateType(array)
+        //如果不是数组返回undefined
+        if(type !== 'Array') return void 0
+        else {
+            //如果内部存在数组,就展开一次
+            while(array.some(item => Array.isArray(item))){
+                array = [].concat(...array);
+            }
+            return array;
+        }
+    }
 }
 
 export default myTool

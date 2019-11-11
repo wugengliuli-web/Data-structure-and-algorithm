@@ -318,6 +318,30 @@ function () {
         }
       }
     }
+    /**
+     * 数组的扁平化
+     * @param {需要扁平化的数组 Array} array 
+     * @returns {扁平化之后的数组 Array}
+     */
+
+  }, {
+    key: "flat",
+    value: function flat(array) {
+      var type = (0, _index.getDateType)(array); //如果不是数组返回undefined
+
+      if (type !== 'Array') return void 0;else {
+        //如果内部存在数组,就展开一次
+        while (array.some(function (item) {
+          return Array.isArray(item);
+        })) {
+          var _ref;
+
+          array = (_ref = []).concat.apply(_ref, _toConsumableArray(array));
+        }
+
+        return array;
+      }
+    }
   }]);
 
   return myTool;
@@ -332,26 +356,11 @@ var _myTool = _interopRequireDefault(require("./src/myTool"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var obj = {
-  a: {
-    b: {
-      c: {
-        d: 5,
-        e: {
-          f: void 0,
-          t: null,
-          g: [1, 2, 3]
-        },
-        p: {}
-      }
-    }
-  }
-};
-
-var p = _myTool.default.clone(obj);
-
-obj.a = 5;
-console.log(obj, p);
+var arr = [1, 2, 3, [1, 2, 3, [1, 2, 3]], {
+  name: 'aa'
+}];
+console.log(_myTool.default.flat(arr));
+console.log(arr);
 },{"./src/myTool":"src/myTool.js"}],"C:/Users/DELL/AppData/Local/Yarn/Data/global/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -380,7 +389,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57647" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "2237" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
