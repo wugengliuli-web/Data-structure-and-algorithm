@@ -190,9 +190,9 @@ function () {
 
     /**
      * 数组去重方法
-     * @param {需要去重的数组 Array} array 
-     * @param {是否含有引用类型,默认含有true Boolean} hasObject
-     * @returns {去重后新的数组 Array}
+     * @param {需要去重的数组 array} array 
+     * @param {是否含有引用类型,默认含有true boolean} hasObject
+     * @returns {去重后新的数组 array}
      */
     value: function removeRepeat(array) {
       var hasObject = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
@@ -218,8 +218,8 @@ function () {
     }
     /**
      * 用于对象的取值
-     * @param {需要索引的对象 Object} obj
-     * @param {取值的内容 String} index
+     * @param {需要索引的对象 object} obj
+     * @param {取值的内容 string} index
      * @param {如果是undefined,或者没找到,则返回的值,默认undefined any} defaultValue
      * @returns {如果值存在,返回取到的值,否则返回默认值 any}
      */
@@ -320,8 +320,8 @@ function () {
     }
     /**
      * 数组的扁平化
-     * @param {需要扁平化的数组 Array} array 
-     * @returns {扁平化之后的数组 Array}
+     * @param {需要扁平化的数组 array} array 
+     * @returns {扁平化之后的数组 array}
      */
 
   }, {
@@ -342,6 +342,150 @@ function () {
         return array;
       }
     }
+    /**
+     * 产生[min, max]范围内的随机整数
+     * @param {最小值 number} min 
+     * @param {最大值 number} max
+     * @returns {返回一个随机数 number} 
+     */
+
+  }, {
+    key: "randomInt",
+    value: function randomInt(min, max) {
+      //如果不是数字类型返回undefined
+      if (typeof min !== 'number' || typeof max !== 'number') return 0;
+      min = Math.ceil(min); //上取整
+
+      max = Math.floor(max); //下取整
+
+      if (min > max) return 0;else if (min === max) return min;else {
+        //缺陷 min max出现的次数远远小于中间数字的次数
+
+        /*let range = max - min
+        return min + Math.round(Math.random() * range)
+        */
+        return parseInt(Math.random() * (max - min + 1) + min, 10);
+      }
+    }
+    /**
+     * 产生[min, max)的随机数
+     * @param {最小值 number} min 
+     * @param {最大值 number} max
+     * @param {四舍五入保留几位小数,默认保留一位 number} len
+     * @returns {返回一个随机数 number} 
+     */
+
+  }, {
+    key: "random",
+    value: function random(min, max) {
+      var len = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
+      if (typeof min !== 'number' || typeof max !== 'number' || typeof len !== 'number') return 0; //对len向下取整
+
+      len = Math.floor(len); //最大保留10位小数
+
+      if (len > 10) len = 10;
+      var ran = max - min;
+      return (Math.random() * ran + min).toFixed(len);
+    }
+    /**
+     * 生成一个随机数组成的数组
+     * @param {数组的X轴 number} x 
+     * @param {数组的Y轴 number} y 
+     * @param {随机数的最小值 number} min 
+     * @param {随机数的最大值 number} max
+     * @returns {数组 array} 
+     */
+
+  }, {
+    key: "randomIntArray",
+    value: function randomIntArray(x, y) {
+      var min = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+      var max = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 1;
+      if (typeof x !== 'number' || typeof y !== 'number') return [];
+
+      if (min > max) {
+        min = 0;
+        max = 1;
+      }
+
+      if (x === 0 || y === 0) return [];else {
+        var arr = [];
+
+        for (var i = 0; i < y; i++) {
+          arr.push([]);
+
+          for (var j = 0; j < x; j++) {
+            arr[i].push(this.randomInt(min, max));
+          }
+        }
+
+        return arr;
+      }
+    }
+    /**
+     * 数组乱序
+     * @param {数组 array} array 
+     * @returns {返回乱序后的数组 array}
+     */
+
+  }, {
+    key: "arrayScrambling",
+    value: function arrayScrambling(array) {
+      if ((0, _index.getDateType)(array) !== 'Array') return [];
+      return _toConsumableArray(array).sort(function () {
+        return Math.random() - 0.5;
+      });
+    }
+    /**
+     * 数组排序
+     * @param {需要排序的数组 array} array 
+     * @param {升序还是降序, true 升序 false 降序 boolean} order 
+     * @returns {排序后的新数组 array}
+     */
+
+  }, {
+    key: "arraySort",
+    value: function arraySort(array) {
+      var order = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+      if ((0, _index.getDateType)(array) !== 'Array') return [];
+      if (order) return _toConsumableArray(array).sort(function (a, b) {
+        return a - b;
+      });else return _toConsumableArray(array).sort(function (a, b) {
+        return b - a;
+      });
+    }
+    /**
+     * 寻找第K大的数
+     * @param {寻找的数组 array} array
+     * @param {第k大,默认寻找最大的 number} k
+     * @returns {找到的数字 number}
+     */
+
+  }, {
+    key: "findK",
+    value: function findK(array) {
+      var k = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+      if ((0, _index.getDateType)(array) !== 'Array' || typeof k !== 'number') return void 0;
+      if (k > array.length) return 0;
+
+      var arr = _toConsumableArray(array); //过滤掉不是number类型的值
+
+
+      arr = arr.filter(function (item) {
+        return typeof item === 'number';
+      });
+      var max;
+      var index;
+
+      while (k > 0) {
+        k--;
+        max = Math.max.apply(Math, _toConsumableArray(arr));
+        index = arr.indexOf(max);
+        arr.splice(index, 1);
+      }
+
+      return max;
+    }
   }]);
 
   return myTool;
@@ -356,11 +500,10 @@ var _myTool = _interopRequireDefault(require("./src/myTool"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var arr = [1, 2, 3, [1, 2, 3, [1, 2, 3]], {
-  name: 'aa'
+var a = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, {
+  'name': 1
 }];
-console.log(_myTool.default.flat(arr));
-console.log(arr);
+console.log(_myTool.default.findK(a, 1));
 },{"./src/myTool":"src/myTool.js"}],"C:/Users/DELL/AppData/Local/Yarn/Data/global/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -389,7 +532,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "2237" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "3114" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

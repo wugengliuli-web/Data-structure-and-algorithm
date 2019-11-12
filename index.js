@@ -1,6 +1,6 @@
 import myTool from './src/myTool'
 
-let arr = [1,2,3,[1,2,3,[1,2,3]], {name: 'aa'}]
+let a = [0,1,2,3,4,5,6,7,8,9, {'name': 1}]
 
-console.log(myTool.flat(arr))
-console.log(arr)
+
+console.log(myTool.findK(a,1))
