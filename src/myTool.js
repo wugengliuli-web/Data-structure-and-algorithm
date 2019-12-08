@@ -252,6 +252,69 @@ class myTool {
         }
         return max
     }
+
+    /**
+     * 冒泡排序
+     * @param {*} arr 
+     */
+    static bubbleSort(arr) {
+        let newArr = arr.filter(item => typeof item === 'number')
+        for(let i = 0; i < newArr.length; i++) {
+            for(let j = i; j< newArr.length; j++) {
+                if(newArr[i] > newArr[j]) {
+                    [ newArr[i], newArr[j] ] = [ newArr[j], newArr[i] ]
+                }
+            }
+        }
+        return newArr
+    }
+
+    /**
+     * 插入排序
+     * @param {*} arr 
+     */
+    static insertSort(arr) {
+        let newArr = arr.filter(item => typeof item === 'number')
+        let ans = []
+        newArr.forEach((item, i) => {
+            //如果在ans中存在大于当前元素，就插入，否则插入最后一个
+            let index;
+            ans.some((v, i) => {
+                if(v > item) {
+                    index = i
+                    return true
+                }
+            })
+            if(index || index === 0) {
+                ans.splice(index, 0, item)
+            } else {
+                ans.push(item)
+            }
+        })
+        return ans
+    }
+
+    /**
+     * 快速排序
+     * @param {*} arr 
+     */
+    static quickSort(arr) {
+        let newArr = arr.filter(item => typeof item === 'number')
+        return loop(newArr)
+        function loop(arr) {
+            if(arr.length <= 1) return arr
+            //取得中间数
+            let middle = Math.floor(arr.length/2)
+            let middleVal = arr.splice(middle, 1)[0]
+            let left = []
+            let right = []
+            arr.forEach(item => {
+                //如果大于中间数放在右边，小于放在左边
+                item >= middleVal ? right.push(item) : left.push(item)
+            })
+            return [...loop(left), middleVal, ...loop(right)]
+        }
+    }
 }
 
 export default myTool

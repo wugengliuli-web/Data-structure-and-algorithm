@@ -1,6 +1,13 @@
-import myTool from './src/myTool'
+import LinkList from './src/LinkList'
 
-let a = [0,1,2,3,4,5,6,7,8,9, {'name': 1}]
+let linkList = new LinkList()
 
-
-console.log(myTool.findK(a,1))
+linkList.append(5)
+linkList.append(5)
+linkList.append(6)
+linkList.append(7)
+linkList.append(8)
+linkList.append(9)
+linkList.append(10)
+console.log(linkList.unshift(10))
+console.log(linkList)

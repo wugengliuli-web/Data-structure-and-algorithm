@@ -117,394 +117,227 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"src/lib/getDateType.js":[function(require,module,exports) {
+})({"src/LinkList.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-
-/**
- * 判断类型的函数
- * @param {需要判断类型的变量 any} date
- * @returns {类型 String} 
- */
-function getDateType(date) {
-  return Object.prototype.toString.call(date).slice(8, -1);
-}
-
-var _default = getDateType;
-exports.default = _default;
-},{}],"src/lib/index.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-Object.defineProperty(exports, "getDateType", {
-  enumerable: true,
-  get: function () {
-    return _getDateType.default;
-  }
-});
-
-var _getDateType = _interopRequireDefault(require("./getDateType"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-},{"./getDateType":"src/lib/getDateType.js"}],"src/myTool.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _index = require("./lib/index");
-
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
-
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var myTool =
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Node = function Node(val) {
+  _classCallCheck(this, Node);
+
+  this.val = val;
+  this.next = null;
+};
+
+var LinkList =
 /*#__PURE__*/
 function () {
-  function myTool() {
-    _classCallCheck(this, myTool);
-  }
+  function LinkList() {
+    _classCallCheck(this, LinkList);
 
-  _createClass(myTool, null, [{
-    key: "removeRepeat",
+    this.root = null;
+    this.size = 0;
+  } //插入节点
 
-    /**
-     * 数组去重方法
-     * @param {需要去重的数组 array} array 
-     * @param {是否含有引用类型,默认含有true boolean} hasObject
-     * @returns {去重后新的数组 array}
-     */
-    value: function removeRepeat(array) {
-      var hasObject = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-      //如果不是一个数组,返回undefined
-      if (!Array.isArray(array)) return void 0; //如果只包含基本类型
 
-      if (!hasObject) {
-        return _toConsumableArray(new Set(array));
+  _createClass(LinkList, [{
+    key: "append",
+    value: function append(val) {
+      //如果根节点不存在
+      if (this.root === null) {
+        this.root = new Node(val);
       } else {
-        var obj = {};
-        var newArray = []; //返回的新数组
+        var head = this.root;
 
-        array.forEach(function (item) {
-          var s = JSON.stringify(item); //如果不在对象中，则插入新数组
-
-          if (!(s in obj)) {
-            newArray.push(item);
-            obj[s] = true;
-          }
-        });
-        return newArray;
-      }
-    }
-    /**
-     * 用于对象的取值
-     * @param {需要索引的对象 object} obj
-     * @param {取值的内容 string} index
-     * @param {如果是undefined,或者没找到,则返回的值,默认undefined any} defaultValue
-     * @returns {如果值存在,返回取到的值,否则返回默认值 any}
-     */
-
-  }, {
-    key: "objectIndex",
-    value: function objectIndex(obj, index) {
-      var defaultValue = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : void 0;
-      var type = (0, _index.getDateType)(obj); //如果不是对象或者字符串,直接返回
-
-      if (type !== 'Object' || typeof index !== 'string') {
-        return defaultValue;
-      } else {
-        index = index.split('.');
-        var ans = obj;
-        var _iteratorNormalCompletion = true;
-        var _didIteratorError = false;
-        var _iteratorError = undefined;
-
-        try {
-          for (var _iterator = index[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-            var item = _step.value;
-
-            //判断是不是对象
-            if (type === 'Object') {
-              //如果值存在就继续往下读取,并对除了undefined的几个为false的情况进行兼容
-              if (ans[item] || Number.isNaN(ans[item]) || ans[item] === '' || ans[item] === 0 || ans[item] === false || ans[item] === 0.0 || ans[item] === null) {
-                ans = ans[item];
-              } else {
-                return defaultValue;
-              }
-            } else {
-              return defaultValue;
-            }
-          }
-        } catch (err) {
-          _didIteratorError = true;
-          _iteratorError = err;
-        } finally {
-          try {
-            if (!_iteratorNormalCompletion && _iterator.return != null) {
-              _iterator.return();
-            }
-          } finally {
-            if (_didIteratorError) {
-              throw _iteratorError;
-            }
-          }
+        while (head.next) {
+          head = head.next;
         }
 
-        return ans;
+        head.next = new Node(val);
       }
-    }
-    /**
-     * 变量深拷贝的方法
-     * @param {需要克隆的变量 any} oldSource
-     * @returns {拷贝后的变量 any} 
-     */
+
+      this.size++;
+    } //查询节点,不存在返回undefined
 
   }, {
-    key: "clone",
-    value: function clone(oldSource) {
-      var newSource; //对变量进行类型判断
-      //如果为null undefined string number boolean,直接返回
+    key: "find",
+    value: function find(val) {
+      var ans = [];
+      var head = this.root;
+      val = JSON.stringify(val);
+      var i = 0;
 
-      if (typeof oldSource === null || _typeof(oldSource) !== 'object') {
-        newSource = oldSource;
-        return newSource;
+      while (head) {
+        if (JSON.stringify(head.val) === val) {
+          ans.push({
+            node: head,
+            index: i
+          });
+        }
+
+        i++;
+        head = head.next;
+      }
+
+      return ans.length === 0 ? undefined : ans.length === 1 ? ans[0] : ans;
+    } //删除节点 传入索引,成功返回删除节点的值 失败返回false
+
+  }, {
+    key: "delNode",
+    value: function delNode(index) {
+      if (index > this.size - 1 || index < 0) {
+        return false;
       } else {
-        var type = (0, _index.getDateType)(oldSource); //如果为对象
+        var val = this.get(index); //如果删除是头节点
 
-        if (type === 'Object') {
-          newSource = JSON.parse(JSON.stringify(oldSource));
-          return newSource;
-        } else if (type === 'Array') {
-          //如果为数组
-          newSource = _toConsumableArray(oldSource);
-          return newSource;
-        } else if (type === 'Function') {
-          newSource = oldSource;
-          return newSource;
-        } else if (type === 'Date') {
-          newSource = new Date(oldSource.getTime());
-          return newSource;
+        if (index === 0) {
+          this.root = this.root.next;
+        } else if (index === this.size - 1) {
+          //如果删除的是尾节点
+          var head = this.root;
+
+          while (head.next.next) {
+            head = head.next;
+          }
+
+          head.next = null;
         } else {
-          //如果为正则表达式
-          var attrs = '';
-          if (oldSource.global) attrs += 'g';
-          if (oldSource.ignoreCase) attrs += 'i';
-          if (oldSource.multiline) attrs += 'm';
+          var _head = this.root;
 
-          var _newSource = new RegExp(oldSource, attrs);
-
-          _newSource.lastIndex = oldSource.lastIndex;
-          return _newSource;
-        }
-      }
-    }
-    /**
-     * 数组的扁平化
-     * @param {需要扁平化的数组 array} array 
-     * @returns {扁平化之后的数组 array}
-     */
-
-  }, {
-    key: "flat",
-    value: function flat(array) {
-      var type = (0, _index.getDateType)(array); //如果不是数组返回undefined
-
-      if (type !== 'Array') return void 0;else {
-        //如果内部存在数组,就展开一次
-        while (array.some(function (item) {
-          return Array.isArray(item);
-        })) {
-          var _ref;
-
-          array = (_ref = []).concat.apply(_ref, _toConsumableArray(array));
-        }
-
-        return array;
-      }
-    }
-    /**
-     * 产生[min, max]范围内的随机整数
-     * @param {最小值 number} min 
-     * @param {最大值 number} max
-     * @returns {返回一个随机数 number} 
-     */
-
-  }, {
-    key: "randomInt",
-    value: function randomInt(min, max) {
-      //如果不是数字类型返回undefined
-      if (typeof min !== 'number' || typeof max !== 'number') return 0;
-      min = Math.ceil(min); //上取整
-
-      max = Math.floor(max); //下取整
-
-      if (min > max) return 0;else if (min === max) return min;else {
-        //缺陷 min max出现的次数远远小于中间数字的次数
-
-        /*let range = max - min
-        return min + Math.round(Math.random() * range)
-        */
-        return parseInt(Math.random() * (max - min + 1) + min, 10);
-      }
-    }
-    /**
-     * 产生[min, max)的随机数
-     * @param {最小值 number} min 
-     * @param {最大值 number} max
-     * @param {四舍五入保留几位小数,默认保留一位 number} len
-     * @returns {返回一个随机数 number} 
-     */
-
-  }, {
-    key: "random",
-    value: function random(min, max) {
-      var len = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
-      if (typeof min !== 'number' || typeof max !== 'number' || typeof len !== 'number') return 0; //对len向下取整
-
-      len = Math.floor(len); //最大保留10位小数
-
-      if (len > 10) len = 10;
-      var ran = max - min;
-      return (Math.random() * ran + min).toFixed(len);
-    }
-    /**
-     * 生成一个随机数组成的数组
-     * @param {数组的X轴 number} x 
-     * @param {数组的Y轴 number} y 
-     * @param {随机数的最小值 number} min 
-     * @param {随机数的最大值 number} max
-     * @returns {数组 array} 
-     */
-
-  }, {
-    key: "randomIntArray",
-    value: function randomIntArray(x, y) {
-      var min = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-      var max = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 1;
-      if (typeof x !== 'number' || typeof y !== 'number') return [];
-
-      if (min > max) {
-        min = 0;
-        max = 1;
-      }
-
-      if (x === 0 || y === 0) return [];else {
-        var arr = [];
-
-        for (var i = 0; i < y; i++) {
-          arr.push([]);
-
-          for (var j = 0; j < x; j++) {
-            arr[i].push(this.randomInt(min, max));
+          while (index > 1) {
+            _head = _head.next;
+            index--;
           }
+
+          _head.next = _head.next.next;
         }
 
-        return arr;
+        this.size--;
+        return val;
       }
-    }
-    /**
-     * 数组乱序
-     * @param {数组 array} array 
-     * @returns {返回乱序后的数组 array}
-     */
+    } //查询索引
 
   }, {
-    key: "arrayScrambling",
-    value: function arrayScrambling(array) {
-      if ((0, _index.getDateType)(array) !== 'Array') return [];
-      return _toConsumableArray(array).sort(function () {
-        return Math.random() - 0.5;
-      });
-    }
-    /**
-     * 数组排序
-     * @param {需要排序的数组 array} array 
-     * @param {升序还是降序, true 升序 false 降序 boolean} order 
-     * @returns {排序后的新数组 array}
-     */
+    key: "indexOf",
+    value: function indexOf(val) {
+      var i = 0;
+      val = JSON.stringify(val);
+      var head = this.root;
 
-  }, {
-    key: "arraySort",
-    value: function arraySort(array) {
-      var order = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-      if ((0, _index.getDateType)(array) !== 'Array') return [];
-      if (order) return _toConsumableArray(array).sort(function (a, b) {
-        return a - b;
-      });else return _toConsumableArray(array).sort(function (a, b) {
-        return b - a;
-      });
-    }
-    /**
-     * 寻找第K大的数
-     * @param {寻找的数组 array} array
-     * @param {第k大,默认寻找最大的 number} k
-     * @returns {找到的数字 number}
-     */
+      while (head) {
+        if (JSON.stringify(head.val) === val) {
+          return i;
+        }
 
-  }, {
-    key: "findK",
-    value: function findK(array) {
-      var k = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-      if ((0, _index.getDateType)(array) !== 'Array' || typeof k !== 'number') return void 0;
-      if (k > array.length) return 0;
-
-      var arr = _toConsumableArray(array); //过滤掉不是number类型的值
-
-
-      arr = arr.filter(function (item) {
-        return typeof item === 'number';
-      });
-      var max;
-      var index;
-
-      while (k > 0) {
-        k--;
-        max = Math.max.apply(Math, _toConsumableArray(arr));
-        index = arr.indexOf(max);
-        arr.splice(index, 1);
+        i++;
+        head = head.next;
       }
 
-      return max;
+      return -1;
+    } //获取节点的val
+
+  }, {
+    key: "get",
+    value: function get(index) {
+      if (index < 0 || index > this.size - 1) {
+        return null;
+      } else {
+        var head = this.root;
+
+        while (index > 0) {
+          head = head.next;
+          index--;
+        }
+
+        return head.val;
+      }
+    } //修改链表的元素,成功返回true，失败返回false
+
+  }, {
+    key: "upDate",
+    value: function upDate(index, val) {
+      if (index > this.size - 1 || index < 0) {
+        return false;
+      } else {
+        var head = this.root;
+
+        while (index > 0) {
+          head = head.next;
+          index--;
+        }
+
+        head.val = val;
+        return true;
+      }
+    } //返回链表的长度
+
+  }, {
+    key: "size",
+    value: function size() {
+      return this.size;
+    }
+  }, {
+    key: "isEmpty",
+    value: function isEmpty() {
+      return this.size === 0;
+    } //移除链表的尾部并返回元素
+
+  }, {
+    key: "pop",
+    value: function pop() {
+      if (this.isEmpty()) return false;
+      return this.delNode(this.size - 1);
+    } //栈顶插入元素
+
+  }, {
+    key: "unshift",
+    value: function unshift(val) {
+      var node = new Node(val);
+      var head = this.root;
+      this.root = node;
+      this.root.next = head;
+      this.size++;
+    } //获取栈顶元素
+
+  }, {
+    key: "shift",
+    value: function shift() {
+      return this.isEmpty() ? null : this.root.val;
     }
   }]);
 
-  return myTool;
+  return LinkList;
 }();
 
-var _default = myTool;
+var _default = LinkList;
 exports.default = _default;
-},{"./lib/index":"src/lib/index.js"}],"index.js":[function(require,module,exports) {
+},{}],"index.js":[function(require,module,exports) {
 "use strict";
 
-var _myTool = _interopRequireDefault(require("./src/myTool"));
+var _LinkList = _interopRequireDefault(require("./src/LinkList"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var a = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, {
-  'name': 1
-}];
-console.log(_myTool.default.findK(a, 1));
-},{"./src/myTool":"src/myTool.js"}],"C:/Users/DELL/AppData/Local/Yarn/Data/global/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+var linkList = new _LinkList.default();
+linkList.append(5);
+linkList.append(5);
+linkList.append(6);
+linkList.append(7);
+linkList.append(8);
+linkList.append(9);
+linkList.append(10);
+console.log(linkList.unshift(10));
+console.log(linkList);
+},{"./src/LinkList":"src/LinkList.js"}],"C:/Users/DELL/AppData/Local/Yarn/Data/global/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -532,7 +365,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "3114" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "35140" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
